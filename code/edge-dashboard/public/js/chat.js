@@ -54,7 +54,12 @@
         bubbleElement.dataset.markdownParsed = '1';
     }
 
-    function addMessage(role, content) {
+    function addMessage(role, content, dataAnalysis = false) {
+        const promptsContainer = document.getElementById('suggested-prompts');
+        if (promptsContainer) {
+            promptsContainer.remove();
+        }
+
         const messageRow = document.createElement('div');
         messageRow.className = 'd-flex align-items-start gap-2 mb-3 ' + (role === 'user' ? 'flex-row-reverse' : '');
 
@@ -62,8 +67,36 @@
         const baseClasses = 'border rounded-3 p-2 shadow-sm markdown';
         messageBubble.className = baseClasses + (role === 'user' ? ' bg-primary-subtle border-primary-subtle' : ' bg-white');
 
+        if (dataAnalysis) {
+            messageBubble.classList.add('position-relative', 'pe-4');
+        }
+
         messageBubble.textContent = content || '';
         parseMarkdown(messageBubble, content || '');
+
+        if (dataAnalysis) {
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'position-absolute top-0 end-0 p-1 text-success';
+            iconDiv.title = 'Data analysis active';
+            iconDiv.innerHTML = `
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3v18h18" />
+              <rect x="7" y="10" width="2" height="7" />
+              <rect x="11" y="6" width="2" height="11" />
+              <rect x="15" y="13" width="2" height="4" />
+            </svg>`;
+            messageBubble.appendChild(iconDiv);
+        }
 
         messageRow.appendChild(messageBubble);
         thread.appendChild(messageRow);
@@ -102,6 +135,22 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         cleanupOrphanedLoaders();
+
+        const suggestedPrompts = document.querySelectorAll('.suggested-prompt-card');
+        suggestedPrompts.forEach(card => {
+            card.addEventListener('click', () => {
+                const prompt = card.dataset.prompt;
+                const analysis = card.dataset.analysis === 'true';
+                
+                if (prompt) {
+                    isDataAnalysisEnabled = analysis;
+                    updateDataAnalysisVisuals();
+                    input.value = prompt;
+                    adjustInputHeight();
+                    form.requestSubmit();
+                }
+            });
+        });
         
         if (!window.marked) return;
         thread.querySelectorAll('.markdown').forEach(bubble => {
@@ -121,7 +170,7 @@
         
         input.disabled = true;
         sendButton.disabled = true;
-        addMessage('user', userMessage);
+        addMessage('user', userMessage, isDataAnalysisEnabled);
         input.value = '';
         adjustInputHeight();
         const typingIndicatorRow = showTypingIndicator();

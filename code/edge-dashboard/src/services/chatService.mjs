@@ -37,9 +37,9 @@ async function askInteraction(sessionId, question, dataAnalysis = false) {
   return response.json();
 }
 
-export async function addUserMessage(sessionId, content) {
+export async function addUserMessage(sessionId, content, dataAnalysis = false) {
   const client = await getRedis();
-  const entry = JSON.stringify({ role: 'user', content, ts: Date.now() });
+  const entry = JSON.stringify({ role: 'user', content, ts: Date.now(), dataAnalysis });
   await client.rPush(key(sessionId), entry);
 }
 
@@ -83,7 +83,7 @@ export async function handleChatMessage(sessionId, rawMessage, dataAnalysis = fa
     .filter(m => m.role === 'user')
     .map(m => m.content);
 
-  await addUserMessage(sessionId, message);
+  await addUserMessage(sessionId, message, dataAnalysis);
 
   let domainResult = { valid: true };
   if(env.intentDetectionEnabled) {
