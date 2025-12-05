@@ -26,6 +26,8 @@ export const env = {
     url: process.env.REDIS_URL
   },
 
+  intentDetectionEnabled: (process.env.INTENT_DETECTION_ENABLED ?? 'false').toLowerCase() === 'true',
+
   metricsWindowMinutes: Number(process.env.METRICS_WINDOW_MINUTES),
 
   data: {
