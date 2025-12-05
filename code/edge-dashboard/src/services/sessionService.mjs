@@ -1,104 +1,76 @@
-import { getRedis } from '../config/redis.mjs';
-import { classifyDomain } from '../ai/classifier.mjs';
-import { env } from '../config/env.mjs';
-import https from 'https';
 import fetch from 'node-fetch';
+import { getRedis } from '../config/redis.mjs';
+import https from 'https';
+import { env } from '../config/env.mjs';
 
-function key(sessionId) {
-  return `${sessionId}:${env.data.chat}`;
-}
-
-async function submitInteraction(sessionId, question, answer) {
-  const response = await fetch(`${env.backendBaseUrl}/interaction/submit`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': env.apiKey
-    },
-    body: JSON.stringify({ deviceId: env.deviceId, sessionId, question, answer }),
-    agent: new https.Agent({ rejectUnauthorized: false })
-  });
-  if (!response.ok) throw new Error(`submit interaction failed with status ${response.status}`);
-  return;
-}
-
-async function askInteraction(sessionId, question, dataAnalysis = false) {
-  const url = `${env.backendBaseUrl}/interaction/ask`;
+async function startSessionRequest() {
+  const base = env.backendBaseUrl;
+  const url = `${base}/session/start`;
+  const body = { deviceId: env.deviceId };
+  const agent = new https.Agent({ rejectUnauthorized: false });
   const response = await fetch(url, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': env.apiKey
     },
-    body: JSON.stringify({ deviceId: env.deviceId, sessionId, question, dataAnalysis: !!dataAnalysis }),
-    agent: new https.Agent({ rejectUnauthorized: false })
+    body: JSON.stringify(body),
+    agent: agent
   });
-  if (!response.ok) throw new Error(`ask interaction failed with status ${response.status}, body: ${await response.text()}`);
-  return response.json();
+  if (!response.ok) throw new Error(`start session failed status ${response.status}`);
+  const jsonResponse = await response.json();
+  if (!jsonResponse.sessionId) throw new Error('missing sessionId in response');
+  return jsonResponse.sessionId;
 }
 
-export async function addUserMessage(sessionId, content) {
-  const client = await getRedis();
-  const entry = JSON.stringify({ role: 'user', content, ts: Date.now() });
-  await client.rPush(key(sessionId), entry);
-}
-
-export async function addBotMessage(sessionId, content) {
-  const client = await getRedis();
-  const entry = JSON.stringify({ role: 'bot', content, ts: Date.now() });
-  await client.rPush(key(sessionId), entry);
-}
-
-export async function getMessages(sessionId) {
-  const client = await getRedis();
-  const raw = await client.lRange(key(sessionId), 0, -1);
-  const messages = raw.map(m => {
-    try { return JSON.parse(m); } catch { return m; }
+async function closeSessionRequest(sessionId) {
+  const base = env.backendBaseUrl;
+  const url = `${base}/session/end`;
+  const body = { deviceId: env.deviceId, sessionId: sessionId };
+  const agent = new https.Agent({ rejectUnauthorized: false });
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': env.apiKey
+    },
+    body: JSON.stringify(body),
+    agent: agent
   });
-  
-  if (messages.length === 0) {
-    const welcomeMessage = {
-      role: 'bot',
-      content: env.welcomeMessage,
-      ts: Date.now()
-    };
-    await client.rPush(key(sessionId), JSON.stringify(welcomeMessage));
-    messages.push(welcomeMessage);
-  }
-  
-  return messages;
+  if (!response.ok) throw new Error(`end session failed status ${response.status}`);
 }
 
-export async function deleteChat(sessionId) {
+async function setSession(sessionId) {
   const client = await getRedis();
-  await client.del(key(sessionId));
+  const ttlSeconds = env.sessionTtlSeconds; 
+  await client.set("sessionId", sessionId, { EX: ttlSeconds });
 }
 
-export async function handleChatMessage(sessionId, rawMessage, dataAnalysis = false) {
-  const message = rawMessage.trim();
-  if(!message) throw new Error('empty message');
+async function deleteSession() {
+  const client = await getRedis();
+  await client.del(env.data.sessionId);
+}
 
-  const messages = await getMessages(sessionId);
-  const userHistory = messages
-    .filter(m => m.role === 'user')
-    .map(m => m.content);
+async function getSession() {
+  const client = await getRedis();
+  return await client.get(env.data.sessionId);
+}
 
-  await addUserMessage(sessionId, message);
+export async function startSession() {
+  const sessionId = await startSessionRequest();
+  await setSession(sessionId);
+  return sessionId;
+}
 
-  let domainResult = { valid: true };
-  if(env.intentDetectionEnabled) {
-     console.log('Classifying domain');
-     domainResult = await classifyDomain(message, userHistory);
-  }
-  if (!domainResult.valid) {
-    const rejectionMessage = domainResult.message;
-    await addBotMessage(sessionId, rejectionMessage);
-    await submitInteraction(sessionId, message, rejectionMessage);
-    return { answer: rejectionMessage, rejected: true };
-  }
-  else {
-    const { answer, chunks } = await askInteraction(sessionId, message, dataAnalysis);
-    await addBotMessage(sessionId, answer);
-    return { answer, chunks };
-  }
+export async function endSession(sessionId) {
+  if (!sessionId) return;
+  await closeSessionRequest(sessionId);
+  const client = await getRedis();
+  await deleteSession();
+}
+
+export async function hasSession(id) {
+  const currentSessionId = await getSession();
+  if (!currentSessionId) return false;
+  return currentSessionId === id;
 }

@@ -84,7 +84,12 @@ export async function handleChatMessage(sessionId, rawMessage, dataAnalysis = fa
     .map(m => m.content);
 
   await addUserMessage(sessionId, message);
-  const domainResult = await classifyDomain(message, userHistory);
+
+  let domainResult = { valid: true };
+  if(env.intentDetectionEnabled) {
+     console.log('Classifying domain');
+     domainResult = await classifyDomain(message, userHistory);
+  }
   if (!domainResult.valid) {
     const rejectionMessage = domainResult.message;
     await addBotMessage(sessionId, rejectionMessage);
