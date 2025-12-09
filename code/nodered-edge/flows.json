@@ -1,6 +1,6 @@
 [
     {
-        "id": "b667b205bc64704e",
+        "id": "5d2ab3a95d5847f9",
         "type": "tab",
         "label": "Subscriber",
         "disabled": false,
@@ -8,7 +8,7 @@
         "env": []
     },
     {
-        "id": "9f05951ba788199f",
+        "id": "af2d12934ad47d49",
         "type": "tab",
         "label": "Health",
         "disabled": false,
@@ -57,7 +57,7 @@
             },
             {
                 "name": "API_KEY",
-                "value": "super-secret-apikey",
+                "value": "JdhLhlekl6p9XTE7",
                 "type": "str"
             },
             {
@@ -134,11 +134,6 @@
                 "name": "BLOOD_PRESSURE_SYS_MAX",
                 "value": "200",
                 "type": "str"
-            },
-            {
-                "name": "API_KEY",
-                "value": "JdhLhlekl6p9XTE7",
-                "type": "str"
             }
         ],
         "modules": {
@@ -155,9 +150,9 @@
         "optionsType": "json"
     },
     {
-        "id": "03dec6a6659dc2f3",
+        "id": "ba0f89f1ca0d9073",
         "type": "mqtt in",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "",
         "topic": "vitals/#",
         "qos": "0",
@@ -171,14 +166,14 @@
         "y": 480,
         "wires": [
             [
-                "eefbfe02433ade69"
+                "c0fe214dba790d99"
             ]
         ]
     },
     {
-        "id": "e73cf6ae266459fa",
+        "id": "0ba4221c1aaa06b8",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "bp_sys",
         "property": "topic",
         "propertyType": "msg",
@@ -196,14 +191,14 @@
         "y": 360,
         "wires": [
             [
-                "9ad1df8746066cc4"
+                "7070b843977287f6"
             ]
         ]
     },
     {
-        "id": "437605c0f9c451e7",
+        "id": "5e27eae68bc20174",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "body_temperature",
         "property": "topic",
         "propertyType": "msg",
@@ -221,14 +216,14 @@
         "y": 640,
         "wires": [
             [
-                "b925abb00ac52146"
+                "e272d83a930e4d82"
             ]
         ]
     },
     {
-        "id": "4cf09623b6067874",
+        "id": "0aa7d826610f792d",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "respiratory_rate",
         "property": "topic",
         "propertyType": "msg",
@@ -246,14 +241,14 @@
         "y": 780,
         "wires": [
             [
-                "9cba47fe2373e035"
+                "7f5aa84dea703d64"
             ]
         ]
     },
     {
-        "id": "6ef4bbe8a0c417d0",
+        "id": "bd49e5b33cb854e2",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "heart_rate",
         "property": "topic",
         "propertyType": "msg",
@@ -271,14 +266,14 @@
         "y": 200,
         "wires": [
             [
-                "c013f4adffbbc5e4"
+                "ae29fd22ec74076c"
             ]
         ]
     },
     {
-        "id": "1dc6115f51ef6f06",
+        "id": "4f033bc2754cf589",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "spo2",
         "property": "topic",
         "propertyType": "msg",
@@ -296,14 +291,14 @@
         "y": 920,
         "wires": [
             [
-                "dbcaada2a8fdc10f"
+                "20d09590ab114110"
             ]
         ]
     },
     {
-        "id": "391af5fd71e431a6",
+        "id": "1783ac45c936098c",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "glycemic",
         "property": "topic",
         "propertyType": "msg",
@@ -321,14 +316,14 @@
         "y": 80,
         "wires": [
             [
-                "7f0021e351573cda"
+                "17e990cd9d9884bb"
             ]
         ]
     },
     {
-        "id": "7ad0d9045ab11f3d",
+        "id": "c7cf341ec53f2bbc",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"GLYCEMIC_MIN\"));\nconst maxVal = parseFloat(env.get(\"GLYCEMIC_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\n\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -341,15 +336,15 @@
         "y": 80,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "3b34c0e8822bfab6",
+        "id": "0d3288fba1510b7c",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"HEART_RATE_MIN\"));\nconst maxVal = parseFloat(env.get(\"HEART_RATE_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -362,15 +357,15 @@
         "y": 200,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "97537ab81ce50e2a",
+        "id": "70b9ac6f1a8834af",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"BLOOD_PRESSURE_SYS_MIN\"));\nconst maxVal = parseFloat(env.get(\"BLOOD_PRESSURE_SYS_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\n\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -383,15 +378,15 @@
         "y": 360,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "eefbfe02433ade69",
+        "id": "c0fe214dba790d99",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "create redis request",
         "func": "const { payload, topic, ...otherProps } = msg;\n\nreturn {\n    ...otherProps,\n    sensorData: payload,\n    sensorTopic: topic,\n    command: \"GET\",\n    topic: \"sessionId\",\n    params: [],\n    payload: null\n};",
         "outputs": 1,
@@ -404,14 +399,14 @@
         "y": 480,
         "wires": [
             [
-                "4bccb49f56248d61"
+                "6d9ba8b04a2e2ad1"
             ]
         ]
     },
     {
-        "id": "847c8b6f19fb2f14",
+        "id": "8980c681befc0987",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "merge result",
         "func": "const sessionId = msg.payload;\nif(sessionId === null) return null;\nmsg.payload = msg.sensorData;\nmsg.topic = msg.sensorTopic;\nmsg.payload.sessionId = sessionId;\nreturn msg;",
         "outputs": 1,
@@ -424,20 +419,20 @@
         "y": 480,
         "wires": [
             [
-                "1dc6115f51ef6f06",
-                "391af5fd71e431a6",
-                "6ef4bbe8a0c417d0",
-                "e73cf6ae266459fa",
-                "437605c0f9c451e7",
-                "4cf09623b6067874",
-                "fcef06d1f3e87fdb"
+                "4f033bc2754cf589",
+                "1783ac45c936098c",
+                "bd49e5b33cb854e2",
+                "0ba4221c1aaa06b8",
+                "5e27eae68bc20174",
+                "0aa7d826610f792d",
+                "348afaa9fd45424a"
             ]
         ]
     },
     {
-        "id": "fcef06d1f3e87fdb",
+        "id": "348afaa9fd45424a",
         "type": "switch",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "bp_dia",
         "property": "topic",
         "propertyType": "msg",
@@ -455,14 +450,14 @@
         "y": 500,
         "wires": [
             [
-                "c3abefd1b572a76e"
+                "f82c8bc9b3c89540"
             ]
         ]
     },
     {
-        "id": "7d2f48dd7949a190",
+        "id": "4537251eb751010c",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"BLOOD_PRESSURE_DIA_MIN\"));\nconst maxVal = parseFloat(env.get(\"BLOOD_PRESSURE_DIA_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -475,15 +470,14 @@
         "y": 500,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9"
             ]
         ]
     },
     {
-        "id": "cb8305ce8f6078f8",
+        "id": "a7cec0324cad1d34",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"RESPIRATORY_RATE_MIN\"));\nconst maxVal = parseFloat(env.get(\"RESPIRATORY_RATE_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -496,15 +490,15 @@
         "y": 780,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "aadf53693b262158",
+        "id": "217762caf1864988",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"BODY_TEMPERATURE_MIN\"));\nconst maxVal = parseFloat(env.get(\"BODY_TEMPERATURE_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -513,19 +507,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1310,
+        "x": 1290,
         "y": 640,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "6dccd31e582c6d9b",
+        "id": "fcbe1a2b8e8539de",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "prepare http request",
         "func": "const baseUrl = env.get(\"API_BASE_URL\");\nconst deviceId = env.get(\"DEVICE_ID\");\nconst apiKey = env.get(\"API_KEY\");\n\nmsg.url = baseUrl + \"/\" + msg.topic;\n\nmsg.headers = {\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": apiKey\n};\nmsg.payload = {\n    timestamp: msg.payload.event_ts,\n    type: msg.payload.type,\n    unit: msg.payload.unit,\n    value: msg.payload.value,\n    device_id: deviceId,\n    sessionId: msg.payload.sessionId\n};\nmsg.method = \"POST\";\nmsg.rejectUnauthorized = false;\n\nreturn msg;\n",
         "outputs": 1,
@@ -534,18 +528,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1660,
-        "y": 640,
+        "x": 2140,
+        "y": 540,
         "wires": [
             [
-                "e65f863b8f7a7225"
+                "eac9b4263652f19e"
             ]
         ]
     },
     {
-        "id": "fe04938caa982bd3",
+        "id": "5e3417dd3ab9f9a9",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "prepare zadd request",
         "func": "const p = msg.payload || {};\nconst key = msg.topic.replace(/\\//g, \":\");\n\nconst score = p.event_ts ? Date.parse(p.event_ts) : Date.now();\nif (!Number.isFinite(score)) return null;\n\nconst member = JSON.stringify({\n  ts: p.event_ts,\n  type: p.type,\n  unit: p.unit,\n  value: p.value,\n  sessionId: p.sessionId\n});\n\nmsg.payload = [ key, String(score), member ];\ndelete msg.topic;\n\nreturn msg;\n",
         "outputs": 1,
@@ -558,14 +552,14 @@
         "y": 360,
         "wires": [
             [
-                "b51cd70a9997b0cd"
+                "6ba801e76c4e95d0"
             ]
         ]
     },
     {
-        "id": "e65f863b8f7a7225",
+        "id": "eac9b4263652f19e",
         "type": "http request",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "send http request",
         "method": "use",
         "ret": "obj",
@@ -578,18 +572,18 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1890,
-        "y": 640,
+        "x": 2350,
+        "y": 540,
         "wires": [
             [
-                "2c2320272ae9c0ec"
+                "9d783a8579fa97d6"
             ]
         ]
     },
     {
-        "id": "4bccb49f56248d61",
+        "id": "6d9ba8b04a2e2ad1",
         "type": "redis-command",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "server": "fdba33394fbf0491",
         "command": "GET",
         "name": "get",
@@ -602,14 +596,14 @@
         "y": 480,
         "wires": [
             [
-                "847c8b6f19fb2f14"
+                "8980c681befc0987"
             ]
         ]
     },
     {
-        "id": "b51cd70a9997b0cd",
+        "id": "6ba801e76c4e95d0",
         "type": "redis-command",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "server": "fdba33394fbf0491",
         "command": "ZADD",
         "name": "redis zadd",
@@ -625,9 +619,9 @@
         ]
     },
     {
-        "id": "c013f4adffbbc5e4",
+        "id": "ae29fd22ec74076c",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -636,15 +630,15 @@
         "y": 200,
         "wires": [
             [
-                "3b34c0e8822bfab6"
+                "0d3288fba1510b7c"
             ],
             []
         ]
     },
     {
-        "id": "7f0021e351573cda",
+        "id": "17e990cd9d9884bb",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -653,15 +647,15 @@
         "y": 80,
         "wires": [
             [
-                "7ad0d9045ab11f3d"
+                "c7cf341ec53f2bbc"
             ],
             []
         ]
     },
     {
-        "id": "9ad1df8746066cc4",
+        "id": "7070b843977287f6",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -670,15 +664,15 @@
         "y": 360,
         "wires": [
             [
-                "97537ab81ce50e2a"
+                "70b9ac6f1a8834af"
             ],
             []
         ]
     },
     {
-        "id": "c3abefd1b572a76e",
+        "id": "f82c8bc9b3c89540",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -687,15 +681,15 @@
         "y": 500,
         "wires": [
             [
-                "7d2f48dd7949a190"
+                "4537251eb751010c"
             ],
             []
         ]
     },
     {
-        "id": "b925abb00ac52146",
+        "id": "e272d83a930e4d82",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -704,15 +698,15 @@
         "y": 640,
         "wires": [
             [
-                "aadf53693b262158"
+                "217762caf1864988"
             ],
             []
         ]
     },
     {
-        "id": "dbcaada2a8fdc10f",
+        "id": "20d09590ab114110",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -721,15 +715,15 @@
         "y": 920,
         "wires": [
             [
-                "59c77081151dd46e"
+                "856e17746a56f3f5"
             ],
             []
         ]
     },
     {
-        "id": "9cba47fe2373e035",
+        "id": "7f5aa84dea703d64",
         "type": "json-full-schema-validator",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "validation",
         "property": "payload",
         "propertyType": "msg",
@@ -738,15 +732,15 @@
         "y": 780,
         "wires": [
             [
-                "cb8305ce8f6078f8"
+                "a7cec0324cad1d34"
             ],
             []
         ]
     },
     {
-        "id": "59c77081151dd46e",
+        "id": "856e17746a56f3f5",
         "type": "function",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "filter",
         "func": "const minVal = parseFloat(env.get(\"SPO2_MIN\"));\nconst maxVal = parseFloat(env.get(\"SPO2_MAX\"));\n\nconst val = parseFloat(msg.payload.value);\n\nif (isNaN(val)) return null;\nif (val < minVal || val > maxVal) return null;\n\nreturn msg;\n",
         "outputs": 1,
@@ -759,15 +753,15 @@
         "y": 920,
         "wires": [
             [
-                "6dccd31e582c6d9b",
-                "fe04938caa982bd3"
+                "5e3417dd3ab9f9a9",
+                "7431ec1a536d8836"
             ]
         ]
     },
     {
-        "id": "2c2320272ae9c0ec",
+        "id": "9d783a8579fa97d6",
         "type": "debug",
-        "z": "b667b205bc64704e",
+        "z": "5d2ab3a95d5847f9",
         "name": "status code",
         "active": true,
         "tosidebar": true,
@@ -777,14 +771,74 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2090,
-        "y": 640,
+        "x": 2550,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "612a35a628821d50",
+        "id": "7431ec1a536d8836",
+        "type": "function",
+        "z": "5d2ab3a95d5847f9",
+        "name": "get offline mode",
+        "func": "const { payload, topic, ...otherProps } = msg;\n\nreturn {\n    ...otherProps,\n    sensorData: payload,\n    sensorTopic: topic,\n    command: \"GET\",\n    topic: \"offlineMode\",\n    params: [],\n    payload: null\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1640,
+        "y": 540,
+        "wires": [
+            [
+                "03bf40bc86060fd2"
+            ]
+        ]
+    },
+    {
+        "id": "03bf40bc86060fd2",
+        "type": "redis-command",
+        "z": "5d2ab3a95d5847f9",
+        "server": "fdba33394fbf0491",
+        "command": "GET",
+        "name": "get",
+        "topic": "",
+        "params": "[]",
+        "paramsType": "json",
+        "payloadType": "json",
+        "block": false,
+        "x": 1810,
+        "y": 540,
+        "wires": [
+            [
+                "95ebfa7f6c976fb3"
+            ]
+        ]
+    },
+    {
+        "id": "95ebfa7f6c976fb3",
+        "type": "function",
+        "z": "5d2ab3a95d5847f9",
+        "name": "merge result",
+        "func": "const getOffline = msg.payload;\nif (getOffline === 'true') return null;\nmsg.payload = msg.sensorData;\nmsg.topic = msg.sensorTopic;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1950,
+        "y": 540,
+        "wires": [
+            [
+                "fcbe1a2b8e8539de"
+            ]
+        ]
+    },
+    {
+        "id": "a19f94fe3a2a6e38",
         "type": "inject",
-        "z": "9f05951ba788199f",
+        "z": "af2d12934ad47d49",
         "name": "polling",
         "props": [],
         "repeat": "1",
@@ -796,14 +850,14 @@
         "y": 180,
         "wires": [
             [
-                "487a637200707731"
+                "1b2535860b51cd1c"
             ]
         ]
     },
     {
-        "id": "487a637200707731",
+        "id": "1b2535860b51cd1c",
         "type": "function",
-        "z": "9f05951ba788199f",
+        "z": "af2d12934ad47d49",
         "name": "prepare helath request",
         "func": "const baseUrl = env.get(\"API_BASE_URL\");\nconst deviceId = env.get(\"DEVICE_ID\");\nconst apiKey = env.get(\"API_KEY\");\n\nreturn {\n    ...msg,\n    rejectUnauthorized: false,\n    method: \"POST\",\n    url: `${baseUrl}/health`,\n    headers: { \n        \"Content-Type\": \"application/json\",\n        \"Authorization\": apiKey \n    },\n    payload: { deviceId }\n};",
         "outputs": 1,
@@ -816,14 +870,14 @@
         "y": 180,
         "wires": [
             [
-                "b05f480afd65e145"
+                "2c4493312dea9c91"
             ]
         ]
     },
     {
-        "id": "b05f480afd65e145",
+        "id": "2c4493312dea9c91",
         "type": "http request",
-        "z": "9f05951ba788199f",
+        "z": "af2d12934ad47d49",
         "name": "send health request",
         "method": "use",
         "ret": "obj",
@@ -840,14 +894,14 @@
         "y": 180,
         "wires": [
             [
-                "a46c94d70bd247fc"
+                "854085c2d6b8c249"
             ]
         ]
     },
     {
-        "id": "a46c94d70bd247fc",
+        "id": "854085c2d6b8c249",
         "type": "debug",
-        "z": "9f05951ba788199f",
+        "z": "af2d12934ad47d49",
         "name": "status code",
         "active": true,
         "tosidebar": true,
